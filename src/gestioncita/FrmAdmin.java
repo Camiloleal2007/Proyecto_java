@@ -75,41 +75,35 @@ public class FrmAdmin extends javax.swing.JFrame {
     }
 
     public void cargarTablaCitas() {
-        // Limpiar las filas existentes
         modelo.setRowCount(0);
 
-        // Obtener los pacientes recurrentes
         List<Object[]> citas = operaciones.obtenerPacientesRecurrentes();
 
-        // Agregar las filas de los pacientes recurrentes a la tabla
         for (Object[] fila : citas) {
             Object[] nuevaFila = new Object[]{
-                fila[0], // Nombre del paciente
-                fila[1], // Cantidad de citas
-                fila[2], // Hora más recurrente
-                fila[3], // Tipo de cita más recurrente
-                fila[4] // Médico más recurrente
+                fila[0], 
+                fila[1],
+                fila[2],
+                fila[3], 
+                fila[4] 
             };
             modelo.addRow(nuevaFila);
         }
 
-        // Limpiar las filas del modelo de horarios
         modeloHorario.setRowCount(0);
 
-        // Obtener los horarios
         List<Object[]> horario = operaciones.obtenerHorario();
 
-        // Agregar las filas de los horarios a la tabla
         for (Object[] fila : horario) {
             Object[] nuevaFila2 = new Object[]{
-                fila[0], // Ejemplo de campo de horario
-                fila[1], // Ejemplo de campo de horario
-                fila[2], // Ejemplo de campo de horario
-                fila[3], // Ejemplo de campo de horario
-                fila[4], // Ejemplo de campo de horario
-                fila[5], // Ejemplo de campo de horario
-                fila[6], // Ejemplo de campo de horario
-                fila[7] // Ejemplo de campo de horario
+                fila[0], 
+                fila[1], 
+                fila[2], 
+                fila[3],
+                fila[4], 
+                fila[5], 
+                fila[6], 
+                fila[7]
             };
             modeloHorario.addRow(nuevaFila2);
         }
