@@ -71,7 +71,6 @@ public class FrmLogin extends javax.swing.JFrame {
         txtIdentidad = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         btnIniciar = new javax.swing.JButton();
-        btnNewusuario = new javax.swing.JButton();
         txtContra = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -93,14 +92,6 @@ public class FrmLogin extends javax.swing.JFrame {
             }
         });
 
-        btnNewusuario.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
-        btnNewusuario.setText("Crear Usuario");
-        btnNewusuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNewusuarioActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -109,9 +100,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(129, 129, 129)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnNewusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(169, 169, 169)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -137,9 +126,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addComponent(txtContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49)
                 .addComponent(btnIniciar)
-                .addGap(18, 18, 18)
-                .addComponent(btnNewusuario)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
 
         pack();
@@ -153,36 +140,6 @@ public class FrmLogin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos antes de guardar.", "Campos incompletos", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnIniciarActionPerformed
-
-    private void btnNewusuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewusuarioActionPerformed
-        // TODO add your handling code here:
-        JTextField docAdmin = new JTextField();
-        JPasswordField passAdmin = new JPasswordField();
-
-        Object[] campos = {
-            "Documento del administrador:", docAdmin,
-            "Contraseña:", passAdmin
-        };
-
-        int opcion = JOptionPane.showConfirmDialog(null, campos,
-                "Autenticación de Administrador", JOptionPane.OK_CANCEL_OPTION);
-
-        if (opcion == JOptionPane.OK_OPTION) {
-            String doc = docAdmin.getText().trim();
-            String pass = new String(passAdmin.getPassword()).trim();
-
-            if (doc.isEmpty() || pass.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Por favor, completa ambos campos.");
-            } else {
-
-                if (Operaciones.esAdministradorValido(doc, pass)) {
-                    new FrmRegisterUser().setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "No se encontro ningun admin con estos datos.");
-                }
-            }
-        }
-    }//GEN-LAST:event_btnNewusuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -221,7 +178,6 @@ public class FrmLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIniciar;
-    private javax.swing.JButton btnNewusuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

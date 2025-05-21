@@ -322,19 +322,6 @@ public class Operaciones {
 
         return resultados;
     }
-
-    public static void main(String[] args) {
-        // Prueba del método con un ejemplo
-        LocalDate fechaBase = LocalDate.now();
-        String modo = "dia";
-        int[] reporte = obtenerReporteCitas(modo, fechaBase);
-
-        // Mostrar el reporte en consola
-        System.out.println("Citas activas: " + reporte[0]);
-        System.out.println("Citas atendidas: " + reporte[1]);
-        System.out.println("Total de citas: " + reporte[2]);
-    }
-
     public static List<Object[]> obtenerTotalCitasPorEspecialidad() {
         List<Object[]> especialidades = new ArrayList<>();
         String query = "{ CALL TotalCitasPorEspecialidad() }";
@@ -362,7 +349,7 @@ public class Operaciones {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Object[] fila = new Object[8]; 
-                    fila[0] = rs.getString("horario");
+                    fila[0] = rs.getString("medico");
                     fila[1] = rs.getString("lunes");
                     fila[2] = rs.getString("martes");
                     fila[3] = rs.getString("miercoles");
@@ -372,6 +359,7 @@ public class Operaciones {
                     fila[7] = rs.getString("domingo");
 
                     horarios.add(fila);
+                    
                 }
             }
         } catch (SQLException e) {

@@ -13,6 +13,9 @@ public class FrmRegisterUser extends javax.swing.JFrame {
         buttonGroup1.add(RbMedico);
         buttonGroup1.add(RbPaciente);
         buttonGroup1.add(RbAdmin);
+        RbMedico.setActionCommand("Medico");
+        RbPaciente.setActionCommand("Paciente");
+        RbAdmin.setActionCommand("Admin");
         RbPaciente.setSelected(true);
         comboEspecialidades.setEnabled(false);
 
@@ -355,14 +358,16 @@ public class FrmRegisterUser extends javax.swing.JFrame {
         String fechaNacimiento = TxtFechaNacimiento.getText().trim();
         String contraseña = TxtContraseña.getText().trim();
         String especialidad = RbMedico.isSelected() ? (String) comboEspecialidades.getSelectedItem() : null;
-        String rol = (buttonGroup1.getSelection() != null) ? buttonGroup1.getSelection().getActionCommand() : "No seleccionado";
+        String rol = (buttonGroup1.getSelection() != null)
+                ? buttonGroup1.getSelection().getActionCommand()
+                : "No seleccionado";
 
         Operaciones operacion = new Operaciones();
 
         boolean exito = operacion.ejecutarCRUD("INSERT", documento, nombre, telefono, especialidad, correo, fechaNacimiento, contraseña, rol);
 
         if (exito) {
-            new FrmLogin().setVisible(true);
+            new FrmAdmin().setVisible(true);
             this.dispose();
             JOptionPane.showMessageDialog(null, "Usuario registrado exitosamente.");
         } else {
@@ -376,7 +381,7 @@ public class FrmRegisterUser extends javax.swing.JFrame {
 
     private void BtnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegresarActionPerformed
         // TODO add your handling code here:
-        new FrmLogin().setVisible(true);
+        new FrmAdmin().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_BtnRegresarActionPerformed
 

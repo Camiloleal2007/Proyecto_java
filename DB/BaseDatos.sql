@@ -60,7 +60,7 @@ create table CitasAtendidas(
 );
 
 create table Horario(
-horario varchar(100),
+medico varchar(100),
 lunes varchar(50),
 martes varchar(50),
 miercoles varchar(50),
@@ -69,19 +69,17 @@ viernes varchar(50),
 sabado varchar(50),
 domingo varchar(50)
 );
-INSERT INTO Horario (horario, lunes, martes, miercoles, jueves, viernes, sabado, domingo) 
+INSERT INTO Horario (medico, lunes, martes, miercoles, jueves, viernes, sabado, domingo) 
 VALUES 
-('7:00 AM - 7:45 AM', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible'),
-('8:00 AM - 8:45 AM', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible'),
-('9:00 AM - 9:45 AM', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible'),
-('10:00 AM - 10:45 AM', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible'),
-('11:00 AM - 11:45 AM', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible'),
-('11:50 AM - 12:55 PM', 'No Disponible', 'No Disponible', 'No Disponible', 'No Disponible', 'No Disponible', 'No Disponible', 'No Disponible'),
-('1:00 PM - 1:45 PM', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible'),
-('2:00 PM - 2:45 PM', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible'),
-('3:00 PM - 3:45 PM', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible'),
-('4:00 PM - 4:45 PM', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible'),
-('5:00 PM - 5:45 PM', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible', 'Disponible');
+('MedicoGeneral1', '7:00 AM - 6:45 PM', '7:00 AM - 6:45 PM', '10:00 AM - 6:45 PM', '7:00 AM - 6:45 PM', '7:00 AM - 6:45 PM', '7:00 AM - 1:00 PM', '7:00 AM - 3:00 PM'),
+('MedicoGeneral2', '7:00 AM - 6:45 PM', '10:00 AM - 6:45 PM', '7:00 AM - 6:45 PM', '7:00 AM - 6:45 PM', '7:00 AM - 6:45 PM', '7:00 AM - 3:00 PM', '7:00 AM - 3:00 PM'),
+('MedicoGeneral3', '7:00 AM - 6:45 PM', '7:00 AM - 6:45 PM', '7:00 AM - 6:45 PM', '10:00 AM - 6:45 PM', '7:00 AM - 6:45 PM', '7:00 AM - 3:00 PM', '7:00 AM - 3:00 PM'),
+('Odontologo1', '7:00 AM - 3:45 PM', '7:00 AM - 1:45 PM', '7:00 AM - 3:45 PM', '10:00 AM - 6:45 PM', '7:00 AM - 3:45 PM', '7:00 AM - 3:00 PM', '7:00 AM - 3:00 PM'),
+('Odontologo2', '7:00 AM - 3:45 PM', '10:00 AM - 6:45 PM', '7:00 AM - 5:45 PM', '7:00 AM - 3:45 PM', '7:00 AM - 3:45 PM', '7:00 AM - 3:00 PM', '7:00 AM - 3:00 PM'),
+('Odontologo3', '10:00 AM - 6:45 PM', '7:00 AM - 6:45 PM', '7:00 AM - 3:45 PM', '7:00 AM - 3:45 PM', '7:00 AM - 3:45 PM', '7:00 AM - 3:00 PM', '7:00 AM - 3:00 PM'),
+('Pediatra1', '9:00 AM - 5:00 PM', '10:00 AM - 6:45 PM', '9:00 AM - 5:00 PM', '9:00 AM - 7:00 PM', '9:00 AM - 5:00 PM', '7:00 AM - 3:00 PM', '7:00 AM - 3:00 PM'),
+('Pediatra2', '9:00 AM - 5:00 PM', '9:00 AM - 5:00 PM', '10:00 AM - 6:45 PM', '9:00 AM - 5:00 PM', '9:00 AM - 5:00 PM', '7:00 AM - 3:00 PM', '7:00 AM - 3:00 PM'),
+('Pediatra3', '9:00 AM - 5:00 PM', '9:00 AM - 5:00 PM', '9:00 AM - 5:00 PM', '10:00 AM - 6:45 PM', '9:00 AM - 6:00 PM', '7:00 AM - 3:00 PM', '7:00 AM - 3:00 PM');
 
 select * from Horario;
 select * from CitasActivas;
