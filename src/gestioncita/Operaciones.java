@@ -305,7 +305,7 @@ public class Operaciones {
         try (Connection con = ConexionDB.conectar(); CallableStatement stmt = con.prepareCall(query)) {
 
             stmt.setString(1, modo.toLowerCase());
-            stmt.setDate(2, java.sql.Date.valueOf(fechaBase)); 
+            stmt.setDate(2, java.sql.Date.valueOf(fechaBase));
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -322,6 +322,7 @@ public class Operaciones {
 
         return resultados;
     }
+
     public static List<Object[]> obtenerTotalCitasPorEspecialidad() {
         List<Object[]> especialidades = new ArrayList<>();
         String query = "{ CALL TotalCitasPorEspecialidad() }";
@@ -329,7 +330,7 @@ public class Operaciones {
         try (Connection con = ConexionDB.conectar(); CallableStatement stmt = con.prepareCall(query); ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Object[] fila = new Object[2];  
+                Object[] fila = new Object[2];
                 fila[0] = rs.getString("tipo_cita");
                 fila[1] = rs.getInt("total_citas");
                 especialidades.add(fila);
@@ -343,12 +344,12 @@ public class Operaciones {
 
     public List<Object[]> obtenerHorario() {
         List<Object[]> horarios = new ArrayList<>();
-        String query = "{ CALL ObtenerHorario() }"; 
+        String query = "{ CALL ObtenerHorario() }";
 
         try (Connection con = ConexionDB.conectar(); CallableStatement stmt = con.prepareCall(query)) {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    Object[] fila = new Object[8]; 
+                    Object[] fila = new Object[8];
                     fila[0] = rs.getString("medico");
                     fila[1] = rs.getString("lunes");
                     fila[2] = rs.getString("martes");
@@ -359,7 +360,7 @@ public class Operaciones {
                     fila[7] = rs.getString("domingo");
 
                     horarios.add(fila);
-                    
+
                 }
             }
         } catch (SQLException e) {
@@ -367,6 +368,58 @@ public class Operaciones {
         }
 
         return horarios;
+    }
+
+    public List<Object[]> obtenerMovimientos() {
+        List<Object[]> movimientos = new ArrayList<>();
+        String query = "{ CALL ObtenerMovimientos() }";
+
+        try (Connection con = ConexionDB.conectar(); CallableStatement stmt = con.prepareCall(query)) {
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Object[] fila = new Object[8];
+                    fila[0] = rs.getString("nombre");
+                    fila[1] = rs.getString("telefono");
+                    fila[2] = rs.getString("especialidad");
+                    fila[3] = rs.getString("correo");
+                    fila[4] = rs.getString("Fecha_nacimiento");
+                    fila[5] = rs.getString("Rol");
+                    fila[6] = rs.getString("Accion");
+                    fila[7] = rs.getString("Fecha");
+
+                    movimientos.add(fila);
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return movimientos;
+    }
+
+    public boolean insertarHorarioMedico(String medico, String lunes, String martes, String miercoles,
+            String jueves, String viernes, String sabado, String domingo) {
+        String query = "{ CALL InsertarHorarioMedico(?, ?, ?, ?, ?, ?, ?, ?) }";
+
+        try (Connection con = ConexionDB.conectar(); CallableStatement stmt = con.prepareCall(query)) {
+
+            stmt.setString(1, medico);
+            stmt.setString(2, lunes);
+            stmt.setString(3, martes);
+            stmt.setString(4, miercoles);
+            stmt.setString(5, jueves);
+            stmt.setString(6, viernes);
+            stmt.setString(7, sabado);
+            stmt.setString(8, domingo);
+
+            stmt.execute();
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

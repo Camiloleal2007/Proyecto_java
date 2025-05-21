@@ -367,6 +367,21 @@ public class FrmRegisterUser extends javax.swing.JFrame {
         boolean exito = operacion.ejecutarCRUD("INSERT", documento, nombre, telefono, especialidad, correo, fechaNacimiento, contraseña, rol);
 
         if (exito) {
+            if (rol.equals("Medico")) {
+                String lunes = JOptionPane.showInputDialog("Horario para Lunes:");
+                String martes = JOptionPane.showInputDialog("Horario para Martes:");
+                String miercoles = JOptionPane.showInputDialog("Horario para Miércoles:");
+                String jueves = JOptionPane.showInputDialog("Horario para Jueves:");
+                String viernes = JOptionPane.showInputDialog("Horario para Viernes:");
+                String sabado = JOptionPane.showInputDialog("Horario para Sábado:");
+                String domingo = JOptionPane.showInputDialog("Horario para Domingo:");
+
+                boolean horarioInsertado = operacion.insertarHorarioMedico(nombre, lunes, martes, miercoles, jueves, viernes, sabado, domingo);
+
+                if (!horarioInsertado) {
+                    JOptionPane.showMessageDialog(null, "Error al guardar el horario del médico.");
+                }
+            }
             new FrmAdmin().setVisible(true);
             this.dispose();
             JOptionPane.showMessageDialog(null, "Usuario registrado exitosamente.");

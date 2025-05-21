@@ -161,6 +161,7 @@ public class FrmAdmin extends javax.swing.JFrame {
         TbEspecialidad = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         btnNewusuario = new javax.swing.JButton();
+        btnNewusuario1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -364,6 +365,14 @@ public class FrmAdmin extends javax.swing.JFrame {
             }
         });
 
+        btnNewusuario1.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        btnNewusuario1.setText("Ver Movimientos");
+        btnNewusuario1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewusuario1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -376,6 +385,8 @@ public class FrmAdmin extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel16)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnNewusuario1)
+                                .addGap(18, 18, 18)
                                 .addComponent(btnNewusuario)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton1)
@@ -446,7 +457,8 @@ public class FrmAdmin extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNewusuario))
+                    .addComponent(btnNewusuario)
+                    .addComponent(btnNewusuario1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -482,6 +494,13 @@ public class FrmAdmin extends javax.swing.JFrame {
         login.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnNewusuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewusuario1ActionPerformed
+        // TODO add your handling code here:
+        FrmMovimientos mov = new FrmMovimientos();
+        mov.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnNewusuario1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -530,6 +549,7 @@ public class FrmAdmin extends javax.swing.JFrame {
     private javax.swing.JTable TbDisponibilidad;
     private javax.swing.JTable TbEspecialidad;
     private javax.swing.JButton btnNewusuario;
+    private javax.swing.JButton btnNewusuario1;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel10;

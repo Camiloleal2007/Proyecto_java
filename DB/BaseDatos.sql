@@ -14,30 +14,7 @@ CREATE TABLE Usuario (
     contraseña VARCHAR(50) NOT NULL,
     Rol Enum('Medico','Paciente','Admin')
 );
-INSERT INTO Usuario (nombre, documento, telefono, especialidad, correo, fecha_nacimiento, contraseña, Rol)
-VALUES ('CamiloLeal', '1082911004', '3011946015', NULL, 'Camiloandreslealospino@gmail.com', '2007-02-20', 'camiloleal2007', 'Admin');
-INSERT INTO Usuario (nombre, documento, telefono, especialidad, correo, fecha_nacimiento, contraseña, Rol)
-VALUES ('Paciente1', '123456789', '3011946015', NULL, 'Camiloandreslealospino@gmail.com', '2007-02-20', 'Paciente1', 'Paciente');
-INSERT INTO Usuario (nombre, documento, telefono, especialidad, correo, fecha_nacimiento, contraseña, Rol)
-VALUES ('Paciente2', '12345', '3011946015', NULL, 'Camiloandreslealospino@gmail.com', '2007-02-20', 'Paciente2', 'Paciente');
-INSERT INTO Usuario (nombre, documento, telefono, especialidad, correo, fecha_nacimiento, contraseña, Rol) 
-VALUES 
-    ('MedicoGeneral1', '10001', '3001111111', 'General', 'medicogeneral1@example.com', '1980-05-15', 'MedicoGeneral1', 'Medico'),
-    ('MedicoGeneral2', '10002', '3002222222', 'General', 'medicogeneral2@example.com', '1985-07-20', 'MedicoGeneral2', 'Medico'),
-    ('MedicoGeneral3', '10003', '3003333333', 'General', 'medicogeneral3@example.com', '1990-02-10', 'MedicoGeneral3', 'Medico');
 
-INSERT INTO Usuario (nombre, documento, telefono, especialidad, correo, fecha_nacimiento, contraseña, Rol) 
-VALUES 
-    ('Odontologo1', '20001', '3101111111', 'Odontología', 'odontologo1@example.com', '1982-09-25', 'Odontologo1', 'Medico'),
-    ('Odontologo2', '20002', '3102222222', 'Odontología', 'odontologo2@example.com', '1988-11-30', 'Odontologo2', 'Medico'),
-    ('Odontologo3', '20003', '3103333333', 'Odontología', 'odontologo3@example.com', '1995-06-05', 'Odontologo3', 'Medico');
-
-INSERT INTO Usuario (nombre, documento, telefono, especialidad, correo, fecha_nacimiento, contraseña, Rol) 
-VALUES 
-    ('Pediatra1', '30001', '3201111111', 'Pediatría', 'pediatra1@example.com', '1983-04-12', 'Pediatra1', 'Medico'),
-    ('Pediatra2', '30002', '3202222222', 'Pediatría', 'pediatra2@example.com', '1987-08-18', 'Pediatra2', 'Medico'),
-    ('Pediatra3', '30003', '3203333333', 'Pediatría', 'pediatra3@example.com', '1992-01-25', 'Pediatra3', 'Medico');
-select * from Usuario;
 
 create table CitasActivas(
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -81,12 +58,66 @@ VALUES
 ('Pediatra2', '9:00 AM - 5:00 PM', '9:00 AM - 5:00 PM', '10:00 AM - 6:45 PM', '9:00 AM - 5:00 PM', '9:00 AM - 5:00 PM', '7:00 AM - 3:00 PM', '7:00 AM - 3:00 PM'),
 ('Pediatra3', '9:00 AM - 5:00 PM', '9:00 AM - 5:00 PM', '9:00 AM - 5:00 PM', '10:00 AM - 6:45 PM', '9:00 AM - 6:00 PM', '7:00 AM - 3:00 PM', '7:00 AM - 3:00 PM');
 
-select * from Horario;
-select * from CitasActivas;
-select * from CitasAtendidas;
+CREATE TABLE Auditoria_Usuario (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    documento VARCHAR(20),
+    nombre VARCHAR(100),
+    telefono VARCHAR(20),
+    especialidad VARCHAR(100),
+    correo VARCHAR(100),
+    fecha_nacimiento DATE,
+    contraseña VARCHAR(50),
+    Rol ENUM('Medico', 'Paciente', 'Admin'),
+    accion ENUM('INSERT', 'UPDATE', 'DELETE'),
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+DELIMITER $$
+
+-- Trigger para INSERT
+CREATE TRIGGER trg_after_insert_usuario
+AFTER INSERT ON Usuario
+FOR EACH ROW
+BEGIN
+  INSERT INTO Auditoria_Usuario (
+    documento, nombre, telefono, especialidad, correo, fecha_nacimiento, contraseña, Rol, accion
+  )
+  VALUES (
+    NEW.documento, NEW.nombre, NEW.telefono, NEW.especialidad, NEW.correo, NEW.fecha_nacimiento, NEW.contraseña, NEW.Rol, 'INSERT'
+  );
+END $$
+
+-- Trigger para UPDATE
+CREATE TRIGGER trg_after_update_usuario
+AFTER UPDATE ON Usuario
+FOR EACH ROW
+BEGIN
+  INSERT INTO Auditoria_Usuario (
+    documento, nombre, telefono, especialidad, correo, fecha_nacimiento, contraseña, Rol, accion
+  )
+  VALUES (
+    NEW.documento, NEW.nombre, NEW.telefono, NEW.especialidad, NEW.correo, NEW.fecha_nacimiento, NEW.contraseña, NEW.Rol, 'UPDATE'
+  );
+END $$
+
+-- Trigger para DELETE
+CREATE TRIGGER trg_after_delete_usuario
+AFTER DELETE ON Usuario
+FOR EACH ROW
+BEGIN
+  INSERT INTO Auditoria_Usuario (
+    documento, nombre, telefono, especialidad, correo, fecha_nacimiento, contraseña, Rol, accion
+  )
+  VALUES (
+    OLD.documento, OLD.nombre, OLD.telefono, OLD.especialidad, OLD.correo, OLD.fecha_nacimiento, OLD.contraseña, OLD.Rol, 'DELETE'
+  );
+END $$
+
+DELIMITER ;
+
+
 DELIMITER //
-CREATE PROCEDURE validar_login( in p_documento VARCHAR(20), in p_contraseña VARCHAR(50),OUT rol_usuario VARCHAR(20)
-)
+CREATE PROCEDURE validar_login( in p_documento VARCHAR(20), in p_contraseña VARCHAR(50),OUT rol_usuario VARCHAR(20))
 BEGIN
     SELECT Rol INTO rol_usuario
     FROM Usuario
@@ -140,12 +171,10 @@ END //
 DELIMITER ;
 
 DELIMITER //
-
 CREATE PROCEDURE EliminarCita( cita_fecha DATE, cita_hora VARCHAR(20))
 BEGIN
     DELETE FROM CitasActivas WHERE fecha = cita_fecha AND hora = cita_hora;
 END //
-
 DELIMITER ;
 
 DELIMITER //
@@ -313,10 +342,11 @@ BEGIN
 END //
 
 DELIMITER ;
+
 DELIMITER //
 
 CREATE PROCEDURE ReporteCitas (
-    IN modo VARCHAR(10), -- 'dia', 'semana', 'mes'
+    IN modo VARCHAR(10),
     IN fecha_base DATE
 )
 BEGIN
@@ -327,7 +357,6 @@ BEGIN
         DECLARE atendidas INT DEFAULT 0;
         DECLARE total INT DEFAULT 0;
 
-        -- Calcular fechas según modo
         IF modo = 'dia' THEN
             SET fecha_inicio = fecha_base;
             SET fecha_fin = fecha_base;
@@ -341,7 +370,6 @@ BEGIN
             LEAVE etiqueta_bloque;
         END IF;
 
-        -- Contar activas y atendidas en el rango
         SELECT COUNT(*) INTO activas 
         FROM CitasActivas 
         WHERE fecha BETWEEN fecha_inicio AND fecha_fin;
@@ -350,13 +378,11 @@ BEGIN
         FROM CitasAtendidas 
         WHERE fecha BETWEEN fecha_inicio AND fecha_fin;
 
-        -- Contar total sin importar fecha
         SELECT 
             (SELECT COUNT(*) FROM CitasActivas) + 
             (SELECT COUNT(*) FROM CitasAtendidas)
         INTO total;
 
-        -- Mostrar resultados
         SELECT 
             activas AS citas_activas,
             atendidas AS citas_atendidas,
@@ -366,13 +392,6 @@ BEGIN
 END //
 
 DELIMITER ;
-
-
-
-select * from CitasActivas;
-select * from CitasAtendidas;
-CALL ReporteCitas('mes', '2025-06-03');
-
 
 DELIMITER //
 
@@ -403,4 +422,64 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE InsertarHorarioMedico(
+    IN p_medico VARCHAR(100),
+    IN p_lunes VARCHAR(50),
+    IN p_martes VARCHAR(50),
+    IN p_miercoles VARCHAR(50),
+    IN p_jueves VARCHAR(50),
+    IN p_viernes VARCHAR(50),
+    IN p_sabado VARCHAR(50),
+    IN p_domingo VARCHAR(50)
+)
+BEGIN
+    INSERT INTO Horario (medico, lunes, martes, miercoles, jueves, viernes, sabado, domingo)
+    VALUES (p_medico, p_lunes, p_martes, p_miercoles, p_jueves, p_viernes, p_sabado, p_domingo);
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE ObtenerMovimientos()
+BEGIN
+    SELECT nombre,telefono,especialidad,correo,fecha_nacimiento,Rol,accion,fecha FROM Auditoria_Usuario;
+END$$
+DELIMITER ;
+
+INSERT INTO Usuario (nombre, documento, telefono, especialidad, correo, fecha_nacimiento, contraseña, Rol)
+VALUES ('CamiloLeal', '1082911004', '3011946015', NULL, 'Camiloandreslealospino@gmail.com', '2007-02-20', 'camiloleal2007', 'Admin');
+INSERT INTO Usuario (nombre, documento, telefono, especialidad, correo, fecha_nacimiento, contraseña, Rol)
+VALUES ('Paciente1', '123456789', '3011946015', NULL, 'Camiloandreslealospino@gmail.com', '2007-02-20', 'Paciente1', 'Paciente');
+INSERT INTO Usuario (nombre, documento, telefono, especialidad, correo, fecha_nacimiento, contraseña, Rol)
+VALUES ('Paciente2', '12345', '3011946015', NULL, 'Camiloandreslealospino@gmail.com', '2007-02-20', 'Paciente2', 'Paciente');
+INSERT INTO Usuario (nombre, documento, telefono, especialidad, correo, fecha_nacimiento, contraseña, Rol) 
+VALUES 
+    ('MedicoGeneral1', '10001', '3001111111', 'General', 'medicogeneral1@example.com', '1980-05-15', 'MedicoGeneral1', 'Medico'),
+    ('MedicoGeneral2', '10002', '3002222222', 'General', 'medicogeneral2@example.com', '1985-07-20', 'MedicoGeneral2', 'Medico'),
+    ('MedicoGeneral3', '10003', '3003333333', 'General', 'medicogeneral3@example.com', '1990-02-10', 'MedicoGeneral3', 'Medico');
+
+INSERT INTO Usuario (nombre, documento, telefono, especialidad, correo, fecha_nacimiento, contraseña, Rol) 
+VALUES 
+    ('Odontologo1', '20001', '3101111111', 'Odontología', 'odontologo1@example.com', '1982-09-25', 'Odontologo1', 'Medico'),
+    ('Odontologo2', '20002', '3102222222', 'Odontología', 'odontologo2@example.com', '1988-11-30', 'Odontologo2', 'Medico'),
+    ('Odontologo3', '20003', '3103333333', 'Odontología', 'odontologo3@example.com', '1995-06-05', 'Odontologo3', 'Medico');
+
+INSERT INTO Usuario (nombre, documento, telefono, especialidad, correo, fecha_nacimiento, contraseña, Rol) 
+VALUES 
+    ('Pediatra1', '30001', '3201111111', 'Pediatría', 'pediatra1@example.com', '1983-04-12', 'Pediatra1', 'Medico'),
+    ('Pediatra2', '30002', '3202222222', 'Pediatría', 'pediatra2@example.com', '1987-08-18', 'Pediatra2', 'Medico'),
+    ('Pediatra3', '30003', '3203333333', 'Pediatría', 'pediatra3@example.com', '1992-01-25', 'Pediatra3', 'Medico');
+select * from Usuario;
+UPDATE Usuario
+
+SET telefono = '3100000000',
+    correo = 'nuevoemail_paciente1@example.com'
+WHERE documento = '123456789';
+
+DELETE FROM Usuario
+WHERE documento = '12345';
+
+select * from Auditoria_Usuario;
+select * from Horario;
 
